@@ -56,33 +56,41 @@ const AddServer = () => {
             <div className="form-group">
               {FULL_STATISTICS.map((unit, index) => (
                 <>
-                  <OverlayTrigger
-                    key="top"
-                    placement="top"
-                    overlay={
-                      <Tooltip id={`tooltip-top`}>
-                        <strong>{capitalize(unit)}</strong>
-                      </Tooltip>
-                    }
-                  >
-                    <div>
-                      {/* <div className=" h5  mt-2">
+                  <div style={{ display: "flex" }}>
+                    <div
+                      className=" h6  mt-2 pt-1 text-left"
+                      style={{ flex: "2" }}
+                    >
+                      <strong>{capitalize(unit) + " :"} </strong>
+                    </div>
+                    <OverlayTrigger
+                      key="top"
+                      placement="top"
+                      overlay={
+                        <Tooltip id={`tooltip-top`}>
+                          <strong>{capitalize(unit)}</strong>
+                        </Tooltip>
+                      }
+                    >
+                      <div style={{ flex: "8" }}>
+                        {/* <div className=" h5  mt-2">
                         {" "}
                         {capitalize(unit) + " :"}
                       </div> */}
 
-                      <input
-                        type="text"
-                        className="form-control form-control-md"
-                        placeholder={`Enter ${unit}`}
-                        name={unit}
-                        value={server.unit}
-                        onChange={onInputChange}
-                        required={unit === "ip" ? "required" : null}
-                        style={{ fontWeight: "bold" }}
-                      />
-                    </div>
-                  </OverlayTrigger>
+                        <input
+                          type="text"
+                          className="form-control form-control-md"
+                          placeholder={`Enter ${unit}`}
+                          name={unit}
+                          value={server.unit}
+                          onChange={onInputChange}
+                          required={unit === "ip" ? "required" : null}
+                          style={{ fontWeight: "bold" }}
+                        />
+                      </div>
+                    </OverlayTrigger>
+                  </div>
                 </>
               ))}
               <div className="text-center">
