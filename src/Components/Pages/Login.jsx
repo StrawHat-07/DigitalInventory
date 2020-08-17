@@ -10,7 +10,7 @@ const Login = () => {
           <div class="login-main-text">
             <h1 className="font-weight-bold">
               Digital Inventory
-              <br /> Login Page
+              <br />
             </h1>
             <p>Login with your airtel account here to access.</p>
           </div>

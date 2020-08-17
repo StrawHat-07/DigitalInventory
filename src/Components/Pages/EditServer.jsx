@@ -11,9 +11,10 @@ import { capitalize } from "../Helpers/HelperFunctions";
 
 const EditServer = (props) => {
   let history = useHistory();
-  const { ip } = useParams();
+  const { id } = useParams();
   //   alert(ip);
   const [server, setServer] = useState({
+    id: "",
     cpu: "",
     dc: "",
     disk: "",
@@ -59,12 +60,12 @@ const EditServer = (props) => {
   };
 
   const onPut = async () => {
-    await axios.put(`http://localhost:8081/inventory/?ip=${ip}`, server);
+    await axios.put(`http://localhost:8081/inventory/?id=${id}`, server);
     history.push("/Home");
   };
   const LoadServer = async () => {
     const result = await axios.get(
-      `http://localhost:8081/inventory/ip?ip=${ip}`
+      `http://localhost:8081/inventory/id?id=${id}`
     );
     // for (var prop in result.data) {
     //   console.log(prop);
@@ -83,7 +84,7 @@ const EditServer = (props) => {
         <div className="w-75 mx-auto shadow p-5">
           <h2 className="text-center mb-4">
             {" "}
-            Edit Server Details for <strong>{ip}</strong>
+            Edit Server Details for <strong>{server["ip"]}</strong>
           </h2>
           {/* onSubmit={(e) => onSubmit(e) */}
           <form onSubmit={(e) => onSubmit(e)}>
@@ -102,12 +103,13 @@ const EditServer = (props) => {
                     <input
                       readOnly={unit === "ip" ? true : false}
                       type="text"
-                      className="form-control form-control-lg"
-                      placeholder={`Enter ${unit}`}
+                      className="form-control form-control-md"
+                      placeholder={`---`}
                       name={unit}
                       value={server[unit]}
                       onChange={onInputChange}
                       required={unit === "ip" ? "required" : null}
+                      style={{ fontWeight: "bold" }}
                     />
                   </OverlayTrigger>
                 </>

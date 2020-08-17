@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -17,6 +17,10 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import logo from "../../logo.jpg";
 import { Link } from "react-router-dom";
+import Searchbar from "./Searchbar";
+import { FULL_STATISTICS, TABLE_STATISTICS } from "../Helpers/Constants";
+import { func } from "prop-types";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -88,10 +92,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+const PrimarySearchAppBar = ({ paginate, servinate }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [search, setSearch] = useState("");
+  //   if (loading) return <h1>Loading ....</h1>;
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -112,6 +118,35 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  //   console.log("From Primary", server[0]);
+  //   let computedData = server;
+  //   console.log(server[0]);
+  //   console.log("Loading: ", loading);
+  //   if (search) {
+  //     computedData = computedData.filter((data) =>
+  //       data.toLowerCase().includes(search, toLowerCase())
+  //     );
+  //   }
+  //   console.log(computedData);
+
+  // computedData = computedData.filter((data) =>
+  //   data["lob"].toLowerCase().includes(search.toLowerCase())
+  // );
+  // console.log(computedData);
+  //   }
+  //   const tableData = useMemo(() => {
+  //     let computedData = server;
+
+  //     if (search) {
+  //       computedData = computedData.filter(
+  //         (data) =>
+  //           data.ip.toLowerCase().includes(search, toLowerCase()) ||
+  //           data.lob.toLowerCase().includes(search, toLowerCase()) ||
+  //           data.module.toLowerCase().includes(search, toLowerCase())
+  //       );
+  //     }
+  //   }, [search]);
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -192,7 +227,7 @@ export default function PrimarySearchAppBar() {
           <Link to="/Home">
             <img src={logo} alt="some image"></img>
           </Link>
-          <div className={classes.search}>
+          {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -204,16 +239,34 @@ export default function PrimarySearchAppBar() {
               }}
               inputProps={{ "aria-label": "search" }}
             />
-          </div>
+          </div> */}
+          <Searchbar
+            onSearch={(value) => {
+              setSearch(value);
+              paginate(1);
+              servinate(value);
+            }}
+            classes={classes}
+          />
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              {/* <Badge badgeContent={4} color="secondary"> */}
-              <Link to="/addServer">
-                <AddIcon />
-              </Link>
-              {/* </Badge> */}
-            </IconButton>
+            <OverlayTrigger
+              key="bottom"
+              placement="bottom"
+              overlay={
+                <Tooltip id={`tooltip-bottom`}>
+                  <strong>{"Add Server"}</strong>
+                </Tooltip>
+              }
+            >
+              <IconButton aria-label="show 4 new mails" color="inherit">
+                {/* /* <Badge badgeContent={4} color="secondary"> */}
+                <Link to="/addServer">
+                  <AddIcon />
+                </Link>
+                {/* </Badge> */}
+              </IconButton>
+            </OverlayTrigger>
             <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon />
@@ -247,4 +300,6 @@ export default function PrimarySearchAppBar() {
       {renderMenu}
     </div>
   );
-}
+};
+
+export default PrimarySearchAppBar;

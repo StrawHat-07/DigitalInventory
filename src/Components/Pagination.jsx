@@ -7,14 +7,14 @@ const Pagination = ({
   currentPage,
 }) => {
   console.log("ghusgye");
-  console.log("entriesperPage", entriesPerPage);
-  console.log("totalENtries", totalEntries);
+  //   console.log("entriesperPage", entriesPerPage);
+  //   console.log("totalENtries", totalEntries);
   const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(totalEntries / entriesPerPage); i++)
     pageNumbers.push(i);
 
-  console.log(pageNumbers);
+  //   console.log(pageNumbers);
 
   //   console.log("Current Page", currentPage);
 
@@ -24,7 +24,7 @@ const Pagination = ({
         <ul className="pagination">
           <li key="Previous">
             <a onClick={() => paginate(currentPage - 1)} className="page-link">
-              Previous
+              Prev
             </a>
           </li>
           {pageNumbers.map((number) => (

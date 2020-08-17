@@ -26,8 +26,8 @@ function App() {
       {/* <PrimarySearchAppBar /> */}
       <Switch>
         <Route exact path="/Home" component={Home} />
-        <Route exact path="/editServer/:ip" component={EditServer} />
-        <Route exact path="/viewServer/:ip" component={ViewServer} />
+        <Route exact path="/editServer/:id" component={EditServer} />
+        <Route exact path="/viewServer/:id" component={ViewServer} />
         <Route exact path="/addServer" component={AddServer} />
         <Route exact path="/Login" component={Login} />
         <Route exact path="/">

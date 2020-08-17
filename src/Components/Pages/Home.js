@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { TABLE_STATISTICS } from "../Helpers/Constants";
@@ -17,6 +17,7 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [entriesPerPage, setEntriesPerPage] = useState(100);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     console.log("kya haalchal");
@@ -29,32 +30,67 @@ const Home = () => {
     }
     Data();
   }, []);
+  const searcher = ["ip", "lob", "module"];
+  let computedData = server;
+  const searchData = useMemo(() => {
+    if (search) {
+      // console.log(server[0]["ip"].toLowerCase().includes(search.toLowerCase()));
+
+      // console.log(server[1]["lob"].toLowerCase().includes(search));
+      // console.log(search.toLowerCase());
+      computedData = server.filter((data) => {
+        let value = false;
+        let flag = false;
+        TABLE_STATISTICS.map((unit) => {
+          // console.log(unit);
+          if (data[unit] == null) {
+            value = false;
+          } else
+            value = data[unit].toLowerCase().includes(search.toLowerCase());
+          if (value) flag = true;
+          // console.log(unit, "", value);
+        });
+
+        if (flag) return true;
+        else return false;
+      });
+    }
+    const indexOfLastEntry = currentPage * entriesPerPage;
+    const indexOfFirstEntry = indexOfLastEntry - entriesPerPage;
+    const currentEntries = computedData.slice(
+      indexOfFirstEntry,
+      indexOfLastEntry
+    );
+
+    return currentEntries;
+  }, [server, currentPage, search]);
+
+  // setServer(computedData);
 
   //   Get Current Table Entries
-  const indexOfLastEntry = currentPage * entriesPerPage;
-  const indexOfFirstEntry = indexOfLastEntry - entriesPerPage;
-  const currentEntries = server.slice(indexOfFirstEntry, indexOfLastEntry);
 
-  console.log("Current Entries: ", currentEntries);
+  //   console.log("Current Entries: ", currentEntries);
   //Change Page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const servinate = (s) => setSearch(s);
 
   //     console.log("PageNumber: ", pageNumber);
   //   };
+  //   console.log(server.length);
 
   return (
     <>
-      <PrimarySearchAppBar />
+      <PrimarySearchAppBar paginate={paginate} servinate={servinate} />
       <div className="container mt-4">
         <Table
-          server={currentEntries}
+          server={searchData}
           loading={loading}
           currentPage={currentPage}
         />
         <div className="text-center text-dark">
           <Pagination
             entriesPerPage={entriesPerPage}
-            totalEntries={server.length}
+            totalEntries={computedData.length}
             paginate={paginate}
             currentPage={currentPage}
           />

@@ -12,9 +12,10 @@ import { capitalize } from "../Helpers/HelperFunctions";
 
 const ViewServer = (props) => {
   let history = useHistory();
-  const { ip } = useParams();
+  const { id } = useParams();
   //   alert(ip);
   const [server, setServer] = useState({
+    id: "",
     cpu: "",
     dc: "",
     disk: "",
@@ -50,7 +51,6 @@ const ViewServer = (props) => {
   const handleShow = () => setModalIsOpen(true);
 
   const onInputChange = (e) => {
-    console.log(e.target.value);
     setServer({ ...server, [e.target.name]: e.target.value });
   };
 
@@ -60,12 +60,12 @@ const ViewServer = (props) => {
   };
 
   const onPut = async () => {
-    await axios.put(`http://localhost:8081/inventory/?ip=${ip}`, server);
+    await axios.put(`http://localhost:8081/inventory/?id=${id}`, server);
     history.push("/Home");
   };
   const LoadServer = async () => {
     const result = await axios.get(
-      `http://localhost:8081/inventory/ip?ip=${ip}`
+      `http://localhost:8081/inventory/id?id=${id}`
     );
     // for (var prop in result.data) {
     //   console.log(prop);
@@ -73,9 +73,7 @@ const ViewServer = (props) => {
     //   setServer({ ...server, prop: result.data[prop] });
     // }
     setServer(result.data);
-    console.log(result.data.ip);
     // setServer(result.data);
-    console.log("Server", server);
   };
   return (
     <>
@@ -84,45 +82,49 @@ const ViewServer = (props) => {
         <div className="w-75 mx-auto shadow p-5">
           <h2 className="text-center mb-4">
             {" "}
-            View Server Details for <strong>{ip}</strong>
+            View Server Details for <strong>{server["ip"]}</strong>
           </h2>
           {/* onSubmit={(e) => onSubmit(e) */}
           <form onSubmit={(e) => onSubmit(e)}>
             <div className="form-group">
               {FULL_STATISTICS.map((unit, index) => (
                 <>
-                  <OverlayTrigger
-                    key="top"
-                    placement="top"
-                    overlay={
-                      <Tooltip id={`tooltip-top`}>
-                        <strong>{capitalize(unit)}</strong>
-                      </Tooltip>
-                    }
-                  >
-                    {/* <div className="text-center">{capitalize(unit) + " :"}</div> */}
-                    <div>
-                      <div className=" h5  mt-2">
-                        {" "}
-                        {capitalize(unit) + " :"}
-                      </div>
-
-                      <input
-                        readOnly={true}
-                        type="text"
-                        className="form-control form-control-md"
-                        placeholder={`----`}
-                        name={unit}
-                        value={server[unit]}
-                        onChange={onInputChange}
-                        required={unit === "ip" ? "required" : null}
-                      />
+                  {/* <div className="text-center">{capitalize(unit) + " :"}</div> */}
+                  <div style={{ display: "flex" }}>
+                    <div
+                      className=" h6  mt-2 pt-1 text-left"
+                      style={{ flex: "2" }}
+                    >
+                      <strong>{capitalize(unit) + " :"} </strong>
                     </div>
-                  </OverlayTrigger>
+                    <OverlayTrigger
+                      key="top"
+                      placement="top"
+                      overlay={
+                        <Tooltip id={`tooltip-top`}>
+                          <strong>{capitalize(unit)}</strong>
+                        </Tooltip>
+                      }
+                    >
+                      <div style={{ flex: "8" }}>
+                        <input
+                          readOnly={true}
+                          type="text"
+                          className="form-control form-control-md"
+                          placeholder={`----`}
+                          name={unit}
+                          value={server[unit]}
+                          onChange={onInputChange}
+                          required={unit === "ip" ? "required" : null}
+                          style={{ fontWeight: "bold" }}
+                        />
+                      </div>
+                    </OverlayTrigger>
+                  </div>
                 </>
               ))}
               <div className="text-center">
-                <Link to={`/editServer/${ip}`}>
+                <Link to={`/editServer/${id}`}>
                   <button type="submit" class="btn btn-dark ml-5 mt-5">
                     Edit Changes
                   </button>

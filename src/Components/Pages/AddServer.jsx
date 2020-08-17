@@ -4,6 +4,8 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 import PrimarySearchAppBar from "../Layout/PrimaryNavbar";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { capitalize } from "../Helpers/HelperFunctions";
 
 const AddServer = () => {
   const [server, setServer] = useState({
@@ -54,15 +56,33 @@ const AddServer = () => {
             <div className="form-group">
               {FULL_STATISTICS.map((unit, index) => (
                 <>
-                  <input
-                    type="text"
-                    className="form-control form-control-lg"
-                    placeholder={`Enter ${unit}`}
-                    name={unit}
-                    value={server.unit}
-                    onChange={onInputChange}
-                    required={unit === "ip" ? "required" : null}
-                  />
+                  <OverlayTrigger
+                    key="top"
+                    placement="top"
+                    overlay={
+                      <Tooltip id={`tooltip-top`}>
+                        <strong>{capitalize(unit)}</strong>
+                      </Tooltip>
+                    }
+                  >
+                    <div>
+                      {/* <div className=" h5  mt-2">
+                        {" "}
+                        {capitalize(unit) + " :"}
+                      </div> */}
+
+                      <input
+                        type="text"
+                        className="form-control form-control-md"
+                        placeholder={`Enter ${unit}`}
+                        name={unit}
+                        value={server.unit}
+                        onChange={onInputChange}
+                        required={unit === "ip" ? "required" : null}
+                        style={{ fontWeight: "bold" }}
+                      />
+                    </div>
+                  </OverlayTrigger>
                 </>
               ))}
               <div className="text-center">
