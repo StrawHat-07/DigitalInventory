@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FULL_STATISTICS } from "../Helpers/Constants";
+import { FULL_STATISTICS, API_ROOT_URL } from "../Helpers/Constants";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
@@ -44,7 +44,7 @@ const AddServer = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(`http://localhost:8081/inventory/`, server);
+    await axios.post(API_ROOT_URL, server);
   };
   return (
     <>

@@ -1,4 +1,4 @@
-export const API_ROOT_URL = "";
+export const API_ROOT_URL = "http://10.5.247.168:8081/inventory/";
 
 export const STATISTIC_DEFINITIONS = {
   ip: {

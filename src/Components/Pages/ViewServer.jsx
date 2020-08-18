@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FULL_STATISTICS } from "../Helpers/Constants";
+import { FULL_STATISTICS, API_ROOT_URL } from "../Helpers/Constants";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 // import Modal from "react-modal";
@@ -60,13 +60,11 @@ const ViewServer = (props) => {
   };
 
   const onPut = async () => {
-    await axios.put(`http://localhost:8081/inventory/?id=${id}`, server);
+    await axios.put(`${API_ROOT_URL}?id=${id}`, server);
     history.push("/Home");
   };
   const LoadServer = async () => {
-    const result = await axios.get(
-      `http://localhost:8081/inventory/id?id=${id}`
-    );
+    const result = await axios.get(`${API_ROOT_URL}id?id=${id}`);
     // for (var prop in result.data) {
     //   console.log(prop);
     //   console.log(result.data[prop]);

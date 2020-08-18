@@ -1,8 +1,12 @@
 import React, { useMemo } from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { TABLE_STATISTICS } from "../Helpers/Constants";
-import { capitalize } from "../Helpers/HelperFunctions";
+import {
+  TABLE_STATISTICS,
+  capitalize,
+  API_ROOT_URL,
+} from "../Helpers/Constants";
+// import { capitalize } from "../Helpers/HelperFunctions";
 import Button from "@material-ui/core/Button";
 import EditIcon from "@material-ui/icons/Edit";
 import VisibilityIcon from "@material-ui/icons/Visibility";
@@ -23,7 +27,7 @@ const Home = () => {
     console.log("kya haalchal");
     async function Data() {
       setLoading(true);
-      const res = await axios.get(`http://localhost:8081/inventory/`);
+      const res = await axios.get(`${API_ROOT_URL}`);
       console.log(res);
       setServer(res.data);
       setLoading(false);
