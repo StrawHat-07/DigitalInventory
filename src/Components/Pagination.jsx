@@ -5,10 +5,12 @@ const Pagination = ({
   totalEntries,
   paginate,
   currentPage,
+  goHit,
 }) => {
+  if (!goHit) return <> </>;
   console.log("ghusgye");
   //   console.log("entriesperPage", entriesPerPage);
-  //   console.log("totalENtries", totalEntries);
+  console.log("totalENtries", totalEntries);
   const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(totalEntries / entriesPerPage); i++)

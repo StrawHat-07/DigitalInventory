@@ -9,11 +9,33 @@ import { FULL_STATISTICS, TABLE_STATISTICS } from "./Helpers/Constants";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import "./Table.css";
 
-const Table = ({ server, loading, currentPage }) => {
+const Table = ({ server, loading, currentPage, goHit }) => {
   if (loading) return <h1>Loading ....</h1>;
-  console.log("Current Page: ", currentPage);
+  if (!goHit)
+    return (
+      // <div className="text-center text-dark bold">
+      //   {" "}
+      //   Enter Lob and Module then hit GO. You can leave lob and module empty to
+      //   view all records.
+      // </div>
+      <div class="card mt-5">
+        <div class="card-header">Note</div>
+        <div class="card-body text-center">
+          <h5 class="card-title">Enter Lob and Module then hit Go 🚀</h5>
+          <div class="card-text">
+            <strong>
+              <h5>
+                {" "}
+                You can leave lob and module empty to view all records 😄{" "}
+              </h5>
+            </strong>
+          </div>
+        </div>
+      </div>
+    );
+  // console.log("Current Page: ", currentPage);
   return (
-    <table class="table border shadow table-hover table-sm table-responsive{-sm|-md|-lg|-xl} text-center table-striped">
+    <table class="table border shadow table-hover table-sm table-responsive{-sm|-md|-lg|-xl} text-center table-striped mt-5">
       <thead class="thead-dark">
         {/* Header Cell */}
         <th scope="col">#</th>
